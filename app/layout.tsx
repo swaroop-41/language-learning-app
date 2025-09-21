@@ -1,17 +1,28 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { GeistSans } from "geist/font/sans"
+import { Montserrat } from "next/font/google"
+import { Open_Sans } from "next/font/google"
 import { GeistMono } from "geist/font/mono"
-import { Analytics } from "@vercel/analytics/next"
-import { ClientLayout } from "./client-layout"
-import { Suspense } from "react"
 import "./globals.css"
+import ClientLayout from "./client-layout"
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+  weight: ["400", "600", "700", "900"],
+})
+
+const openSans = Open_Sans({
+  subsets: ["latin"],
+  variable: "--font-open-sans",
+  weight: ["400", "600", "700"],
+})
 
 export const metadata: Metadata = {
-  title: "Learn 2 Talk - Master South Indian Languages",
+  title: "Learn 2 Talk - Master Indian Languages",
   description:
-    "Learn Telugu, Kannada, Tamil, Hindi, and Malayalam with AI-powered lessons, speech recognition, and cultural insights.",
-  generator: "Learn 2 Talk",
+    "Learn Telugu, Kannada, Tamil, Hindi, and Malayalam with AI-powered lessons, voice chat practice, cultural insights, and personalized learning paths.",
+  generator: "v0.app",
 }
 
 export default function RootLayout({
@@ -21,20 +32,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <style>{`
-html {
-  font-family: ${GeistSans.style.fontFamily};
-  --font-sans: ${GeistSans.variable};
-  --font-mono: ${GeistMono.variable};
-}
-        `}</style>
-      </head>
-      <body>
-        <Suspense fallback={<div>Loading...</div>}>
-          <ClientLayout>{children}</ClientLayout>
-        </Suspense>
-        <Analytics />
+      <body className={`font-sans ${montserrat.variable} ${openSans.variable} ${GeistMono.variable}`}>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   )

@@ -1,5 +1,15 @@
 import { initializeApp } from "firebase/app"
-import { getAuth } from "firebase/auth"
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  type User,
+} from "firebase/auth"
+import { getFirestore } from "firebase/firestore"
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,3 +22,13 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig)
 export const auth = getAuth(app)
+export const db = getFirestore(app)
+export const googleProvider = new GoogleAuthProvider()
+
+// Auth functions
+export const signInWithGoogle = () => signInWithPopup(auth, googleProvider)
+export const signInWithEmail = (email: string, password: string) => signInWithEmailAndPassword(auth, email, password)
+export const signUpWithEmail = (email: string, password: string) =>
+  createUserWithEmailAndPassword(auth, email, password)
+export const logout = () => signOut(auth)
+export const onAuthStateChange = (callback: (user: User | null) => void) => onAuthStateChanged(auth, callback)
